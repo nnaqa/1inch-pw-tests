@@ -12,7 +12,8 @@ export const testData = {
         ]
       },
       currentValueUrl: 'https://portfolio-api.1inch.io/portfolio/v4/general/current_value?addresses=0xd8da6bf26964af9d7eed9e03e53415d37aa96045&use_cache=true',
-      balance: '$6 571 370',
+      // balance: '$6 571 370',
+      balance: '$6 425 729',
     }
   };
   
