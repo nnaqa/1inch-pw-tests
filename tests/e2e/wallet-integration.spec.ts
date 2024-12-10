@@ -61,4 +61,31 @@ test.describe('Wallet connection and balance validation', () => {
     expect(formattedBalance).toBeCloseTo(roundedValueUsd, 2);
   });
 
+  test('Delete connected wallet', async ({ page }) => {
+    const { wallet } = testData;
+    // Step 1: Open the URL and accept cookies, click "I agree"
+    await page.goto('https://portfolio.1inch.io/');
+
+    // Step 2: Click on "Connect wallet" in the header
+    await page.locator('.bundles-list-wrap button').click();
+
+    // Step 3: Type ENS wallet address "vitalik.eth" in the opened form and click "+" button
+    await page.locator('input[placeholder="Add address or domain"]').fill(wallet.ensAddress);
+    await page.locator('button[class="add-button"]').click();
+
+    // Step 4: Check wallet was added
+    const walletHeader = page.locator('.bundles-list-wrap').getByText(wallet.ensAddress)
+    await expect(walletHeader).toBeVisible();
+
+    // Step 5: Press dropdown button
+    await walletHeader.click();
+
+    // Step 6: Validate wallet is added to the list and balance matches
+    await page.getByRole('button', { name: `${wallet.ensAddress} ${wallet.balance}` }).getByRole('button').nth(1).click();
+    
+    // Step 7: Validate wallet is not presented in the header
+    await expect(walletHeader).not.toBeVisible();
+
+  });
+
 });
